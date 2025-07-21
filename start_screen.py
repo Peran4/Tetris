@@ -9,19 +9,34 @@ pygame.init()
 def create_text():
     TETRIS = []
     for x in range(5):
-        TETRIS.append(Block((120+20*x, 80), "BLUE", 0.25))
-        TETRIS.append(Block((380+20*x, 80), "PURPLE", 0.25))
+        TETRIS.append(Block((110 + 20 * x, 80), "BLUE", 0.25))
+        TETRIS.append(Block((330 + 20 * x, 80), "PURPLE", 0.25))
 
     for x in range(7):
-        TETRIS.append(Block((160, 80+20*x), "BLUE", 0.25))
-        TETRIS.append(Block((260, 80+20*x), "RED", 0.25))
-        TETRIS.append(Block((420, 80+20*x), "PURPLE", 0.25))
+        TETRIS.append(Block((150, 80 + 20 * x), "BLUE", 0.25))
+        TETRIS.append(Block((230, 80 + 20 * x), "RED", 0.25))
+        TETRIS.append(Block((370, 80 + 20 * x), "PURPLE", 0.25))
+        TETRIS.append(Block((450, 80 + 20 * x), "ORANGE", 0.25))
+        TETRIS.append(Block((550, 80 + 20 * x), "CYAN", 0.25))
 
-    for x in range(4):
-        TETRIS.append(Block((260+20*x, 80), "RED", 0.25))
-        TETRIS.append(Block((260+20*x, 140), "RED", 0.25))
-        TETRIS.append(Block((260+20*x, 200), "RED", 0.25))
+    for x in range(3):
+        TETRIS.append(Block((250 + 20 * x, 80), "RED", 0.25))
+        TETRIS.append(Block((250 + 20 * x, 140), "RED", 0.25))
+        TETRIS.append(Block((250 + 20 * x, 200), "RED", 0.25))
+        TETRIS.append(Block((470 + 20 * x, 160 + 20 * x), "ORANGE", 0.25))
+        TETRIS.append(Block((610 + 20 * x, 80), "YELLOW", 0.25))
+        TETRIS.append(Block((610 + 20 * x, 140), "YELLOW", 0.25))
+        TETRIS.append(Block((610 + 20 * x, 200), "YELLOW", 0.25))
 
+    for x in range(2):
+        TETRIS.append(Block((470 + 20 * x, 80), "ORANGE", 0.25))
+        TETRIS.append(Block((470 + 20 * x, 140), "ORANGE", 0.25))
+        TETRIS.append(Block((510, 100 + 20 * x), "ORANGE", 0.25))
+        TETRIS.append(Block((670, 160 + 20 * x), "YELLOW", 0.25))
+        TETRIS.append(Block((590, 100 + 20 * x), "YELLOW", 0.25))
+
+    TETRIS.append(Block((590, 180), "YELLOW", 0.25))
+    TETRIS.append(Block((670, 100), "YELLOW", 0.25))
 
     return TETRIS
 
