@@ -1,36 +1,18 @@
-import pygame
-from block_colors import Color
-
-pygame.init()
+from cell import Cell
+from enums import Color, Shapes
 
 
 class Block:
-    def __init__(self, pos: tuple, color_name, scale=1):
+    def __init__(self, pos: tuple, shape: str, scale=1, rotation=0):
         self.pos = pos
-        self.path = Color[color_name].value
         self.scale = scale
 
-        self.image = pygame.image.load(self.path)
+        cell_info = Shapes[shape].value
+        self.color = cell_info[0]
 
-        self.width = self.image.get_width()
-        self.height = self.image.get_height()
-        # print(f"width: {self.width}\nheight: {self.height}")
+        self.cells = [Cell(self.pos + (cell_info[1] * self.scale), self.color, self.scale),
+                      Cell(self.pos + (cell_info[2] * self.scale), self.color, self.scale),
+                      Cell(self.pos + (cell_info[3] * self.scale), self.color, self.scale),
+                      Cell(self.pos + (cell_info[4] * self.scale), self.color, self.scale)]
 
-        self.image = pygame.transform.scale(self.image, (int(self.width * self.scale),
-                                                         int(self.height * self.scale)))
-
-        self.rect = self.image.get_rect()
-        self.rect.topleft = pos
-
-    def draw(self, screen):
-        screen.blit(self.image, (self.rect.x, self.rect.y))
-
-    def change_to_white(self):
-        self.path = Color["WHITE"].value
-
-        self.image = pygame.image.load(self.path)
-        self.image = pygame.transform.scale(self.image, (int(self.width * self.scale),
-                                                         int(self.height * self.scale)))
-
-    def move_down(self):
-        pass
+    def draw(self):

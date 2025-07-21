@@ -22,14 +22,15 @@ def exit_game():
 
 
 screen = pygame.display.set_mode((800, 880))
-screen.fill((79, 79, 79))
+screen.fill((0, 0, 0))
 pygame.display.set_caption("Tetris")
 clock = pygame.time.Clock()
 
 click_sound = start_screen.get_click_sound()
 play_button, options_button, exit_button = start_screen.create_buttons(click_sound, 1)
-frame = start_screen.crate_frame()
+frame = start_screen.create_frame()
 text = start_screen.create_text()
+background_blocks = start_screen.create_bg_blocks()
 
 run = True
 while run:
@@ -50,6 +51,9 @@ while run:
         block.draw(screen)
 
     for block in text:
+        block.draw(screen)
+
+    for block in background_blocks:
         block.draw(screen)
 
     pygame.display.update()
