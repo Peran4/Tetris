@@ -1,6 +1,7 @@
 from button import Button
 from paths import *
 from cell import Cell
+from block import Block
 import pygame
 
 pygame.init()
@@ -56,9 +57,9 @@ def create_frame():
 
 
 def create_bg_blocks():
-    bg_blocks = [Cell((40, 800), "PURPLE", 0.5),
-                 Cell((80, 800), "PURPLE", 0.5),
-                 Cell((120, 800), "PURPLE", 0.5)]
+    bg_blocks = []
+    bg_blocks.extend(Block((80, 360), "S", 0.5).shatter())
+    bg_blocks.extend(Block((80, 720), "Z", 0.5).shatter())
 
     return bg_blocks
 

@@ -25,6 +25,10 @@ class Cell:
     def draw(self, screen):
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
+    def update_pos(self, new_pos: tuple):
+        self.pos = new_pos
+        self.rect.topleft = self.pos
+
     def change_to_white(self):
         self.path = Color["WHITE"].value
 

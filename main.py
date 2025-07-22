@@ -1,5 +1,6 @@
 from sys import exit
 from time import sleep
+from block import Block
 import pygame
 
 import start_screen
@@ -12,7 +13,7 @@ def click_play():
 
 
 def click_options():
-    print("vv")
+    aa.rotate(1)
 
 
 def exit_game():
@@ -30,7 +31,8 @@ click_sound = start_screen.get_click_sound()
 play_button, options_button, exit_button = start_screen.create_buttons(click_sound, 1)
 frame = start_screen.create_frame()
 text = start_screen.create_text()
-background_blocks = start_screen.create_bg_blocks()
+
+aa = Block((240, 360), "Z", 0.5)
 
 run = True
 while run:
@@ -38,6 +40,7 @@ while run:
         if event.type == pygame.QUIT:
             exit_game()
 
+    screen.fill((0, 0, 0))
     play_button.draw(screen)
     play_button.click_left(click_play)
 
@@ -53,8 +56,7 @@ while run:
     for block in text:
         block.draw(screen)
 
-    for block in background_blocks:
-        block.draw(screen)
+    aa.draw_block(screen)
 
     pygame.display.update()
     clock.tick(60)
