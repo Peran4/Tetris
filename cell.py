@@ -37,4 +37,4 @@ class Cell:
                                                          int(self.height * self.scale)))
 
     def move_down(self):
-        pass
+        self.update_pos((self.pos[0], self.pos[1] - int(80 * self.scale)))
