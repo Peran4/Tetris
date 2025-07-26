@@ -22,3 +22,9 @@ class Shapes(Enum):
     L = ["ORANGE", (0, 0), (80, 0), (-80, 0), (-80, 80)]
     J = ["BLUE", (0, 0), (80, 0), (-80, 0), (80, 80)]
     T = ["PURPLE", (0, 0), (-80, 0), (80, 0), (0, 80)]
+
+
+class GameState(Enum):
+    MAIN_MENU = 0
+    OPTIONS = 1
+    GAME = 2

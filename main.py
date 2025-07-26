@@ -1,19 +1,20 @@
 from sys import exit
 from time import sleep
-from block import Block
-import pygame
-
 from start_screen import StartScreen
+from enums import GameState
+
+import pygame
 
 pygame.init()
 
 
 def click_play():
-    print("aa")
+    global game_state
+    game_state = GameState.GAME
 
 
 def click_options():
-    pass
+    print(game_state.value)
 
 
 def exit_game():
@@ -28,6 +29,7 @@ pygame.display.set_caption("Tetris")
 clock = pygame.time.Clock()
 
 main_menu = StartScreen(screen, 1)
+game_state = GameState.MAIN_MENU
 
 run = True
 while run:
