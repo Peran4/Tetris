@@ -3,6 +3,7 @@ from time import sleep
 
 from game_screen import GameScreen
 from start_screen import StartScreen
+from paths import *
 
 import pygame
 
@@ -19,6 +20,9 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
 
+        self.click_sound = pygame.mixer.Sound(click_sound_path)
+        self.click_sound.set_volume(1)
+
         self.current_screen = StartScreen(self)
 
     def run(self):
@@ -31,6 +35,7 @@ class Game:
 
             self.current_screen.handle_events(events)
             self.current_screen.update_screen()
+            self.current_screen.draw_screen()
 
             pygame.display.update()
             self.clock.tick(60)

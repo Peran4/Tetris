@@ -15,8 +15,9 @@ class Block:
 
         for z in range(4):
             self.cells.append(
-                Cell(tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z+1]))),
-                     self.color, self.scale))
+                Cell(
+                    tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z + 1]))),
+                    self.color, self.scale))
 
         self.rotation = 0
         self.rotate(rotation)
@@ -49,12 +50,16 @@ class Block:
         pass
 
     def move_right(self):
+
+        self.change_pos((self.center_pos[0] + 40, self.center_pos[1]))
         pass
 
     def move_left(self):
+        self.change_pos((self.center_pos[0] - 40, self.center_pos[1]))
         pass
 
     def move_down(self):
+        self.change_pos((self.center_pos[0], self.center_pos[1] + 40))
         pass
 
     def change_pos(self, new_pos: tuple):
@@ -62,8 +67,7 @@ class Block:
         for z in range(4):
             self.cells[z].update_pos(
                 tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z + 1]))))
-
-
+        self.rotate(0)
 
     def shatter(self):
         return self.cells

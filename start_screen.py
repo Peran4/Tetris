@@ -19,9 +19,6 @@ class StartScreen:
         self.frame = []
         self.bg_blocks = []
 
-        self.click_sound = pygame.mixer.Sound(click_sound_path)
-        self.click_sound.set_volume(1)
-
         self.create_buttons()
         self.create_frame()
         self.create_text()
@@ -50,6 +47,9 @@ class StartScreen:
             block.draw(self.screen)
 
     def handle_events(self, events):
+        pass
+
+    def draw_screen(self):
         pass
 
     def create_text(self):
@@ -98,10 +98,8 @@ class StartScreen:
 
     def create_buttons(self):
         self.play_button = Button((290, 400), play_button_path, play_button_brighten_path,
-                                  self.click_sound)
+                                  self.game.click_sound)
         self.options_button = Button((290, 500), options_button_path, options_button_brighten_path,
-                                     self.click_sound)
+                                     self.game.click_sound)
         self.exit_button = Button((290, 600), exit_button_path, exit_button_brighten_path,
-                                  self.click_sound)
-
-
+                                  self.game.click_sound)
