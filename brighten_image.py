@@ -1,8 +1,8 @@
 from PIL import Image, ImageEnhance
 from paths import *
 
-image_path = root_path / "Graphics" / "exit_button.png"
-brighten_path = root_path / "Graphics" / "exit_button_brighten.png"
+image_path = root_path / "Graphics" / "buttons" / "back_button.png"
+brighten_path = root_path / "Graphics" / "buttons" / "back_button_brighten.png"
 
 
 def BrightenImage(input_path, output_path, factor):

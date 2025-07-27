@@ -4,13 +4,12 @@ pygame.init()
 
 
 class Button:
-    def __init__(self, pos: tuple, image_path, brighten_image_path, sound, scale):
+    def __init__(self, pos: tuple, image_path, brighten_image_path, sound=None, scale=1):
         self.image = pygame.image.load(image_path)
         self.brighten_image = pygame.image.load(brighten_image_path)
 
         self.width = self.image.get_width()
         self.height = self.image.get_height()
-        # print(f"width: {self.width}\nheight: {self.height}")
 
         self.image = pygame.transform.scale(self.image, (int(self.width * scale), int(self.height * scale)))
         self.brighten_image = pygame.transform.scale(self.brighten_image, (int(self.width * scale),
@@ -22,7 +21,7 @@ class Button:
 
         self.can_click: bool = True
         self.can_display: bool = True
-        self.clicked : bool = False
+        self.clicked: bool = False
 
     def draw(self, screen):
         mouse_pos = pygame.mouse.get_pos()

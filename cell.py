@@ -14,7 +14,6 @@ class Cell:
 
         self.width = self.image.get_width()
         self.height = self.image.get_height()
-        # print(f"width: {self.width}\nheight: {self.height}")
 
         self.image = pygame.transform.scale(self.image, (int(self.width * self.scale),
                                                          int(self.height * self.scale)))

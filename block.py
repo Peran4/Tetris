@@ -8,14 +8,14 @@ class Block:
         self.center_pos = pos
         self.scale = scale
 
-        cell_info = Shapes[shape].value
-        self.color = cell_info[0]
+        self.cell_info = Shapes[shape].value
+        self.color = self.cell_info[0]
 
         self.cells = []
 
         for z in range(4):
             self.cells.append(
-                Cell(tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in cell_info[z+1]))),
+                Cell(tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z+1]))),
                      self.color, self.scale))
 
         self.rotation = 0
@@ -56,6 +56,14 @@ class Block:
 
     def move_down(self):
         pass
+
+    def change_pos(self, new_pos: tuple):
+        self.center_pos = new_pos
+        for z in range(4):
+            self.cells[z].update_pos(
+                tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z + 1]))))
+
+
 
     def shatter(self):
         return self.cells

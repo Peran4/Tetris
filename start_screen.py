@@ -8,15 +8,16 @@ pygame.init()
 
 
 class StartScreen:
-    def __init__(self, screen, scale):
+    def __init__(self, game):
+        self.game = game
+        self.screen = self.game.screen
+
         self.play_button = None
         self.options_button = None
         self.exit_button = None
         self.TETRIS = []
         self.frame = []
         self.bg_blocks = []
-        self.screen = screen
-        self.scale = scale
 
         self.click_sound = pygame.mixer.Sound(click_sound_path)
         self.click_sound.set_volume(1)
@@ -26,16 +27,18 @@ class StartScreen:
         self.create_text()
         self.create_bg_blocks()
 
-    def start_screen(self, play_button_action, options_button_action, exit_button_action):
+    def update_screen(self):
         self.screen.fill((0, 0, 0))
+
         self.play_button.draw(self.screen)
-        self.play_button.click_left(play_button_action)
+
+        self.play_button.click_left(self.game.click_play)
 
         self.options_button.draw(self.screen)
-        self.options_button.click_left(options_button_action)
+        self.options_button.click_left(self.game.click_options)
 
         self.exit_button.draw(self.screen)
-        self.exit_button.click_left(exit_button_action)
+        self.exit_button.click_left(self.game.exit_game)
 
         for block in self.frame:
             block.draw(self.screen)
@@ -45,6 +48,9 @@ class StartScreen:
 
         for block in self.bg_blocks:
             block.draw(self.screen)
+
+    def handle_events(self, events):
+        pass
 
     def create_text(self):
         for x in range(5):
@@ -78,8 +84,6 @@ class StartScreen:
         self.TETRIS.append(Cell((670, 100), "YELLOW", 0.25))
 
     def create_frame(self):
-        self.frame = []
-
         for x in range(20):
             self.frame.append(Cell((40 * x, 0), "GRAY", 0.5))
             self.frame.append(Cell((40 * x, 840), "GRAY", 0.5))
@@ -94,8 +98,10 @@ class StartScreen:
 
     def create_buttons(self):
         self.play_button = Button((290, 400), play_button_path, play_button_brighten_path,
-                                  self.click_sound, self.scale)
+                                  self.click_sound)
         self.options_button = Button((290, 500), options_button_path, options_button_brighten_path,
-                                     self.click_sound, self.scale)
+                                     self.click_sound)
         self.exit_button = Button((290, 600), exit_button_path, exit_button_brighten_path,
-                                  self.click_sound, self.scale)
+                                  self.click_sound)
+
+
