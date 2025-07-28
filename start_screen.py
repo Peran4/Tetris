@@ -19,23 +19,24 @@ class StartScreen:
         self.frame = []
         self.bg_blocks = []
 
-        self.create_buttons()
-        self.create_frame()
-        self.create_text()
-        self.create_bg_blocks()
+        self.__create_buttons()
+        self.__create_frame()
+        self.__create_text()
+        self.__create_bg_blocks()
 
     def update_screen(self):
-        self.screen.fill((0, 0, 0))
-
-        self.play_button.draw(self.screen)
-
         self.play_button.click_left(self.game.click_play)
-
-        self.options_button.draw(self.screen)
         self.options_button.click_left(self.game.click_options)
-
-        self.exit_button.draw(self.screen)
         self.exit_button.click_left(self.game.exit_game)
+
+    def handle_events(self, events):
+        pass
+
+    def draw_screen(self):
+        self.screen.fill((0, 0, 0))
+        self.play_button.draw(self.screen)
+        self.options_button.draw(self.screen)
+        self.exit_button.draw(self.screen)
 
         for block in self.frame:
             block.draw(self.screen)
@@ -46,13 +47,7 @@ class StartScreen:
         for block in self.bg_blocks:
             block.draw(self.screen)
 
-    def handle_events(self, events):
-        pass
-
-    def draw_screen(self):
-        pass
-
-    def create_text(self):
+    def __create_text(self):
         for x in range(5):
             self.TETRIS.append(Cell((110 + 20 * x, 80), "BLUE", 0.25))
             self.TETRIS.append(Cell((330 + 20 * x, 80), "PURPLE", 0.25))
@@ -83,7 +78,7 @@ class StartScreen:
         self.TETRIS.append(Cell((590, 180), "YELLOW", 0.25))
         self.TETRIS.append(Cell((670, 100), "YELLOW", 0.25))
 
-    def create_frame(self):
+    def __create_frame(self):
         for x in range(20):
             self.frame.append(Cell((40 * x, 0), "GRAY", 0.5))
             self.frame.append(Cell((40 * x, 840), "GRAY", 0.5))
@@ -92,11 +87,11 @@ class StartScreen:
             self.frame.append(Cell((0, y * 40), "GRAY", 0.5))
             self.frame.append(Cell((760, y * 40), "GRAY", 0.5))
 
-    def create_bg_blocks(self):
+    def __create_bg_blocks(self):
         self.bg_blocks.extend(Block((80, 800), "T", 0.5, 2).shatter())
         self.bg_blocks.extend(Block((80, 720), "Z", 0.5, 1).shatter())
 
-    def create_buttons(self):
+    def __create_buttons(self):
         self.play_button = Button((290, 400), play_button_path, play_button_brighten_path,
                                   self.game.click_sound)
         self.options_button = Button((290, 500), options_button_path, options_button_brighten_path,

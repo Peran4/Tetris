@@ -31,7 +31,17 @@ class Block:
         if self.color == "YELLOW":
             return
 
-        self.rotation = rotation
+        self.rotation += rotation
+        self.__rotate()
+
+    def __rotate(self):
+        if self.color == "YELLOW":
+            return
+
+        for z in range(4):
+            self.cells[z].update_pos(
+                tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z + 1]))))
+
         beta = (self.rotation % 4) * pi / 2
 
         for cell in self.cells:
@@ -50,7 +60,6 @@ class Block:
         pass
 
     def move_right(self):
-
         self.change_pos((self.center_pos[0] + 40, self.center_pos[1]))
         pass
 
@@ -67,7 +76,7 @@ class Block:
         for z in range(4):
             self.cells[z].update_pos(
                 tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z + 1]))))
-        self.rotate(0)
+        self.__rotate()
 
     def shatter(self):
         return self.cells
