@@ -22,8 +22,22 @@ class GameScreen:
         self.start_text = self.font.render("To start game press any button",
                                            True, (255, 255, 255))
 
+        self.font = pygame.font.SysFont('Ariel', 50)
+
+        self.above_score_text = self.font.render("Score:",
+                                                 True, (142, 33, 195))
+
         self.back_button = Button((540, 720), back_button_path, back_button_brighten_path,
                                   self.game.click_sound, 0.75)
+
+        self.base_scores = {
+            1: 40,
+            2: 100,
+            3: 300,
+            4: 1200
+        }
+
+        self.score = 0
 
         self.frame_cells = []
         self.__create_game_frame()
@@ -83,6 +97,12 @@ class GameScreen:
             block.draw(self.screen)
 
         self.next_block.draw_block(self.screen)
+
+        points_text = self.font.render(f"{self.score}",
+                                       True, (35, 219, 214))
+
+        self.screen.blit(self.above_score_text, (550, 400))
+        self.screen.blit(points_text, (550, 440))
 
         if not self.start_flag:
             self.screen.blit(self.start_text, (54, 400))
@@ -249,6 +269,8 @@ class GameScreen:
             if count == 10:
                 full_lines.append(y)
 
+        self.score += self.base_scores.get(len(full_lines), 0)
+
         return sorted(full_lines)
 
     def __destroy_lines(self, full_lines):
@@ -260,7 +282,7 @@ class GameScreen:
 
         self.locked_cells[:] = new_cells
 
-        for y in sorted(full_lines):
+        for y in full_lines:
             for cell in self.locked_cells:
                 if cell.pos[1] < y:
                     new_y = cell.pos[1] + 40
