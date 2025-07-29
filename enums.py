@@ -3,15 +3,15 @@ from paths import *
 
 
 class Color(Enum):
-    WHITE = white_block_path
-    GRAY = gray_block_path
-    BLUE = blue_block_path
-    CYAN = cyan_block_path
-    GREEN = green_block_path
-    YELLOW = yellow_block_path
-    ORANGE = orange_block_path
-    RED = red_block_path
-    PURPLE = purple_block_path
+    WHITE = [white_block_path, white_shade_path]
+    GRAY = [gray_block_path, green_shade_path]
+    BLUE = [blue_block_path, blue_shade_path]
+    CYAN = [cyan_block_path, cyan_shade_path]
+    GREEN = [green_block_path, green_shade_path]
+    YELLOW = [yellow_block_path, yellow_shade_path]
+    ORANGE = [orange_block_path, orange_shade_path]
+    RED = [red_block_path, red_shade_path]
+    PURPLE = [purple_block_path, purple_shade_path]
 
 
 class Shapes(Enum):

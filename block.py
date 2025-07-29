@@ -1,4 +1,4 @@
-from cell import Cell
+from cells import Cell, ShadeCell
 from enums import Shapes
 from math import cos, sin, pi
 
@@ -19,20 +19,19 @@ class Block:
                     tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z + 1]))),
                     self.color, self.scale))
 
-        self.rotation = 0
-        self.rotate(rotation)
-        # self.cells[0].change_to_white()
+        self.shade_cells = []
+        for z in range(4):
+            self.shade_cells.append(
+                ShadeCell(
+                    tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z + 1]))),
+                    self.color, self.scale))
+
+        self.rotation = rotation
+        self.__rotate()
 
     def draw_block(self, screen):
         for cell in self.cells:
             cell.draw(screen)
-
-    def rotate(self, rotation):
-        if self.color == "YELLOW":
-            return
-
-        self.rotation += rotation
-        self.__rotate()
 
     def __rotate(self):
         if self.color == "YELLOW":
@@ -44,7 +43,7 @@ class Block:
 
         beta = (self.rotation % 4) * pi / 2
 
-        for cell in self.cells:
+        for cell, shade_cell in zip(self.cells, self.shade_cells):
             x = cell.pos[0] - self.center_pos[0]
             y = cell.pos[1] - self.center_pos[1]
 
@@ -55,28 +54,35 @@ class Block:
             new_y += self.center_pos[1]
 
             cell.update_pos((new_x, new_y))
+            shade_cell.update_pos((new_x, new_y))
 
-    def trow_shade(self):
-        pass
+    def draw_shade(self, screen):
+        for cell in self.shade_cells:
+            cell.draw(screen)
 
-    def move_right(self):
-        self.change_pos((self.center_pos[0] + 40, self.center_pos[1]))
-        pass
-
-    def move_left(self):
-        self.change_pos((self.center_pos[0] - 40, self.center_pos[1]))
-        pass
-
-    def move_down(self):
-        self.change_pos((self.center_pos[0], self.center_pos[1] + 40))
-        pass
-
-    def change_pos(self, new_pos: tuple):
+    def change_pos_center(self, new_pos: tuple):
         self.center_pos = new_pos
+        positions = []
         for z in range(4):
-            self.cells[z].update_pos(
+            positions.append(
                 tuple(x + y for x, y in zip(self.center_pos, tuple(x * self.scale for x in self.cell_info[z + 1]))))
-        self.__rotate()
+
+        self.change_all_pos(positions)
+        self.change_shade_pos(positions)
+
+    def change_all_pos(self, new_positions):
+        self.center_pos = new_positions[0]
+
+        i = 0
+        for cell in self.cells:
+            cell.update_pos(new_positions[i])
+            i += 1
+
+    def change_shade_pos(self, new_positions):
+        i = 0
+        for shade_cell in self.shade_cells:
+            shade_cell.update_pos(new_positions[i])
+            i += 1
 
     def shatter(self):
         return self.cells

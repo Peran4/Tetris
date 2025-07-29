@@ -1,6 +1,6 @@
 from button import Button
 from paths import *
-from cell import Cell
+from cells import Cell
 from block import Block
 import pygame
 
