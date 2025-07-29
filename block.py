@@ -54,7 +54,6 @@ class Block:
             new_y += self.center_pos[1]
 
             cell.update_pos((new_x, new_y))
-            shade_cell.update_pos((new_x, new_y))
 
     def draw_shade(self, screen):
         for cell in self.shade_cells:

@@ -5,6 +5,7 @@ from block import Block
 from random import choice
 from enums import Shapes
 from math import cos, sin, pi
+from collections import defaultdict
 import pygame
 
 pygame.init()
@@ -37,6 +38,7 @@ class GameScreen:
         self.press_down = False
         self.can_move_down_flag = False
         self.shade_stopped = False
+        self.move_faster = False
 
         self.start_time = 0
         self.current_time = 0
@@ -58,9 +60,16 @@ class GameScreen:
             self.start_time = pygame.time.get_ticks()
 
         self.throw_shade()
+        full_lines = self.__check_lines()
+
+        if full_lines:
+            self.__destroy_lines(full_lines)
 
         self.current_time = pygame.time.get_ticks()
-        if self.current_time - self.start_time >= 500:
+        timer = 500
+        if self.move_faster:
+            timer = 150
+        if self.current_time - self.start_time >= timer:
             self.__move_block_down()
             self.start_time = self.current_time
 
@@ -97,15 +106,15 @@ class GameScreen:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
                     self.__rotate_block()
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                    pass
+                    self.move_faster = True
                 if event.key == pygame.K_LSHIFT:
-                    pass
+                    self.__fall_block()
                 if event.key == pygame.K_p:
                     self.pause_flag = not self.pause_flag
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                    pass
+                    self.move_faster = False
 
     def __create_game_frame(self):
         for x in range(20):
@@ -215,11 +224,44 @@ class GameScreen:
             self.current_block.change_shade_pos(new_positions)
 
     def __fall_block(self):
-        pass
+        shade_positions = []
+
+        for shade_cell in self.current_block.shade_cells:
+            shade_positions.append(shade_cell.pos)
+
+        self.current_block.change_all_pos(shade_positions)
+        self.__shatter_block()
 
     def __shatter_block(self):
         self.locked_cells.extend(self.current_block.cells)
         self.current_block = None
 
-    def __destroy_line(self):
-        pass
+    def __check_lines(self):
+        line_counts = defaultdict(int)
+
+        for cell in self.locked_cells:
+            y = cell.pos[1]
+            line_counts[y] += 1
+
+        full_lines = []
+
+        for y, count in line_counts.items():
+            if count == 10:
+                full_lines.append(y)
+
+        return sorted(full_lines)
+
+    def __destroy_lines(self, full_lines):
+
+        new_cells = []
+        for cell in self.locked_cells:
+            if cell.pos[1] not in full_lines:
+                new_cells.append(cell)
+
+        self.locked_cells[:] = new_cells
+
+        for y in sorted(full_lines):
+            for cell in self.locked_cells:
+                if cell.pos[1] < y:
+                    new_y = cell.pos[1] + 40
+                    cell.update_pos((cell.pos[0], new_y))

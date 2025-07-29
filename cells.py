@@ -28,13 +28,6 @@ class Cell:
         self.pos = new_pos
         self.rect.topleft = self.pos
 
-    def change_to_white(self):
-        self.paths = Color["WHITE"].value
-
-        self.image = pygame.image.load(self.paths[0])
-        self.image = pygame.transform.scale(self.image, (int(self.width * self.scale),
-                                                         int(self.height * self.scale)))
-
 
 class ShadeCell:
     def __init__(self, pos: tuple, color_name, scale=1):
