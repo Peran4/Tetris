@@ -27,6 +27,9 @@ class GameScreen:
         self.above_score_text = self.font.render("Score:",
                                                  True, (142, 33, 195))
 
+        self.pause_text = self.font.render("Press p to unpause",
+                                           True, (255, 255, 255))
+
         self.back_button = Button((540, 720), back_button_path, back_button_brighten_path,
                                   self.game.click_sound, 0.75)
 
@@ -49,16 +52,17 @@ class GameScreen:
 
         self.start_flag = False
         self.pause_flag = False
+        self.game_over = False
         self.press_down = False
         self.can_move_down_flag = False
-        self.shade_stopped = False
         self.move_faster = False
+        self.shade_stopped = False
 
         self.start_time = 0
         self.current_time = 0
 
     def update_screen(self):
-        self.back_button.click_left(self.game.click_back)
+        self.back_button.click_left(self.game.go_StartScreen)
 
         if self.pause_flag or not self.start_flag:
             return
@@ -107,6 +111,9 @@ class GameScreen:
         if not self.start_flag:
             self.screen.blit(self.start_text, (54, 400))
 
+        if self.pause_flag:
+            self.screen.blit(self.pause_text, (75, 400))
+
         if self.current_block is not None:
             if self.shade_stopped:
                 self.current_block.draw_shade(self.screen)
@@ -119,6 +126,10 @@ class GameScreen:
                     self.start_flag = True
                     return
 
+                if event.key == pygame.K_p:
+                    self.pause_flag = not self.pause_flag
+                if self.pause_flag:
+                    return
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     self.__move_block_left()
                 if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
@@ -129,8 +140,6 @@ class GameScreen:
                     self.move_faster = True
                 if event.key == pygame.K_LSHIFT:
                     self.__fall_block()
-                if event.key == pygame.K_p:
-                    self.pause_flag = not self.pause_flag
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:

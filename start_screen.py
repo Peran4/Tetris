@@ -25,8 +25,8 @@ class StartScreen:
         self.__create_bg_blocks()
 
     def update_screen(self):
-        self.play_button.click_left(self.game.click_play)
-        self.options_button.click_left(self.game.click_options)
+        self.play_button.click_left(self.game.go_GameScreen)
+        self.options_button.click_left(self.game.go_OptionScreen)
         self.exit_button.click_left(self.game.exit_game)
 
     def handle_events(self, events):

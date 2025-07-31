@@ -40,3 +40,4 @@ yellow_shade_path = root_path / "Graphics" / "shades" / "yellow_shade.png"
 # Sounds
 
 click_sound_path = root_path / "Sounds" / "sound1.mp3"
+music_path = root_path / "Sounds" / "music.mp3"

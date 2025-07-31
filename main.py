@@ -3,6 +3,7 @@ from time import sleep
 
 from game_screen import GameScreen
 from start_screen import StartScreen
+from options_screen import OptionsScreen
 from paths import *
 
 import pygame
@@ -22,6 +23,10 @@ class Game:
 
         self.click_sound = pygame.mixer.Sound(click_sound_path)
         self.click_sound.set_volume(1)
+
+        self.music = pygame.mixer.Sound(music_path)
+        self.music.set_volume(0.25)
+        self.music.play(-1)
 
         self.current_screen = StartScreen(self)
 
@@ -45,36 +50,15 @@ class Game:
         pygame.quit()
         exit()
 
-    def click_play(self):
+    def go_GameScreen(self):
         self.current_screen = GameScreen(self)
 
-    def click_options(self):
-        pass
+    def go_OptionScreen(self):
+        self.current_screen = OptionsScreen(self)
 
-    def click_back(self):
+    def go_StartScreen(self):
         self.current_screen = StartScreen(self)
 
 
 if __name__ == "__main__":
     Game().run()
-
-# game_state = GameState.MAIN_MENU
-#
-# main_menu = StartScreen()
-# tgame = GameScreen(screen)
-#
-# run = True
-# while run:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             exit_game()
-#
-#     if game_state == GameState.MAIN_MENU:
-#         main_menu.update_screen(click_play, click_options, exit_game)
-#     elif game_state == GameState.OPTIONS:
-#         pass
-#     elif game_state == GameState.GAME:
-#         tgame.upadate_screen(click_back)
-#
-#     pygame.display.update()
-#     clock.tick(60)

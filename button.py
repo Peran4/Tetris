@@ -26,7 +26,7 @@ class Button:
     def draw(self, screen):
         mouse_pos = pygame.mouse.get_pos()
         if self.can_display:
-            if self.rect.collidepoint(mouse_pos):
+            if self.rect.collidepoint(mouse_pos) and self.can_click:
                 screen.blit(self.brighten_image, (self.rect.x, self.rect.y))
             else:
                 screen.blit(self.image, (self.rect.x, self.rect.y))
