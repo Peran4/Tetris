@@ -2,6 +2,9 @@ from pathlib import Path
 
 root_path = Path(__file__).parent
 
+
+game_over_screen_path = root_path / "Graphics" / "game_over_screen.png"
+
 # Buttons
 
 play_button_path = root_path / "Graphics" / "buttons" / "play_button.png"

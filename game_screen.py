@@ -30,8 +30,19 @@ class GameScreen:
         self.pause_text = self.font.render("Press p to unpause",
                                            True, (255, 255, 255))
 
+        self.game_over_text = self.font.render("GAME OVER",
+                                           True, (255, 255, 255))
+
         self.back_button = Button((540, 720), back_button_path, back_button_brighten_path,
                                   self.game.click_sound, 0.75)
+
+        self.play_button = Button((317, 530), play_button_path, play_button_brighten_path,
+                                  self.game.click_sound, 0.75)
+
+        self.exit_button = Button((317, 610), exit_button_path, exit_button_brighten_path,
+                                  self.game.click_sound, 0.75)
+
+        self.game_over = pygame.image.load(game_over_screen_path)
 
         self.base_scores = {
             1: 40,
@@ -52,9 +63,9 @@ class GameScreen:
 
         self.start_flag = False
         self.pause_flag = False
-        self.game_over = False
-        self.press_down = False
+        self.game_over_flag = False
         self.can_move_down_flag = False
+        self.press_down = False
         self.move_faster = False
         self.shade_stopped = False
 
@@ -64,18 +75,16 @@ class GameScreen:
     def update_screen(self):
         self.back_button.click_left(self.game.go_StartScreen)
 
+        if self.game_over_flag:
+            self.play_button.click_left(self.game.go_GameScreen)
+            self.exit_button.click_left(self.game.go_StartScreen)
+            return
+
         if self.pause_flag or not self.start_flag:
             return
 
         if self.current_block is None:
-            self.current_block = self.next_block
-            new_pos = (200, 40)
-            if self.next_block.color == "YELLOW" or self.next_block.color == "CYAN":
-                new_pos = (200, 80)
-
-            self.current_block.change_pos_center(new_pos)
-            self.__get_next_block()
-            self.start_time = pygame.time.get_ticks()
+            self.__set_current_block()
 
         self.throw_shade()
         full_lines = self.__check_lines()
@@ -108,6 +117,10 @@ class GameScreen:
         self.screen.blit(self.above_score_text, (550, 400))
         self.screen.blit(points_text, (550, 440))
 
+        if self.game_over_flag:
+            self.__draw_game_over()
+            return
+
         if not self.start_flag:
             self.screen.blit(self.start_text, (54, 400))
 
@@ -128,7 +141,7 @@ class GameScreen:
 
                 if event.key == pygame.K_p:
                     self.pause_flag = not self.pause_flag
-                if self.pause_flag:
+                if self.pause_flag or self.game_over_flag:
                     return
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     self.__move_block_left()
@@ -296,3 +309,38 @@ class GameScreen:
                 if cell.pos[1] < y:
                     new_y = cell.pos[1] + 40
                     cell.update_pos((cell.pos[0], new_y))
+
+    def __set_current_block(self):
+        self.current_block = self.next_block
+        new_pos = (200, 40)
+        if self.next_block.color == "YELLOW" or self.next_block.color == "CYAN":
+            new_pos = (200, 80)
+
+        self.current_block.change_pos_center(new_pos)
+
+        if self.__check_game_over():
+            for cell in self.locked_cells:
+                cell.change_to_white()
+            for cell in self.current_block.cells:
+                cell.change_to_white()
+
+            self.back_button.can_click = False
+            return
+
+        self.__get_next_block()
+        self.start_time = pygame.time.get_ticks()
+
+    def __check_game_over(self):
+        for l_cell in self.locked_cells:
+            for b_cell in self.current_block.cells:
+                if b_cell.pos == l_cell.pos:
+                    self.game_over_flag = True
+                    return True
+        return False
+
+    def __draw_game_over(self):
+        self.screen.blit(self.game_over, (160, 160))
+        self.screen.blit(self.game_over_text, (305, 250))
+        self.play_button.draw(self.screen)
+        self.exit_button.draw(self.screen)
+        pass

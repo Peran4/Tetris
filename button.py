@@ -32,7 +32,7 @@ class Button:
                 screen.blit(self.image, (self.rect.x, self.rect.y))
 
     def click_left(self, action):
-        if self.can_click:
+        if self.can_click and self.can_display:
             mouse_pos = pygame.mouse.get_pos()
 
             if self.rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0] and not self.clicked:
